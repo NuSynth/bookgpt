@@ -1,0 +1,276 @@
+***MAIN_NOTE: See if I can prompt chatGPT with a function description along with the GUI source code, and
+              some example pieces if needed for how the output of some files should be formatted.
+
+
+
+This is for what happens once the "Start" button is pressed.
+
+*Note: Refrain from saying things like "story" in the prompts because the output tends
+       to use even the words describing what I want the output to be, which is
+       a story. So it uses the word "story" a lot when I tried with gpt3.
+
+
+// The numbered list of parts are not organized into these parts yet.
+*First: GPT communications
+
+name_series()
+1. Prompt chatGPT to make a name for a *cat_var* book series of 
+   *series_var* number of books.
+   Store series name in variable.
+
+gen_series_plot()   
+2. Tell ChatGPT to make a plot for the entire series in *design_var* style.
+   Store plot in *seriesPlot_var*. 
+      
+gen_book_plots()
+3. Tell chatGPT to make a plot for each *bookPlot_var*
+  (The variable *bookPlot_var* may be a string list, so that the element number
+   is -1 less than the book number, and to simplify the program design.)
+   
+   Right here is also where the sub plots for each book should be generated.
+
+gen_characters()
+4. This is for each book. Loop through each book and tell ChatGPT the series plot, the the current book plot, then the sub-plots of the current book, then this:
+   "List the characters the book will have, the role of the character, and if the character dies in the book, in this format: Character Name | Role in the story | Dies in book: true/false "
+   
+   *Note: surviving characters can be used for each next book.
+          This requires that the characters put into chapters after their deaths to be noted like this:
+
+                               12. **Singularity's Edge**
+                                    [Narrative Type]
+                                    [Narrative component]
+                                    [characters]
+                                    - Ava Lin
+                                    - Dr. Eliot Ramsey
+                                    - Raj Patil
+
+                                    [deaths]
+                                    - Dr. Eliot Ramsey
+
+                                13. **Quantum Entanglements**
+                                    [characters]
+                                    - Ava Lin
+                                    - Theo
+                                    - Dr. Eliot Ramsey (via recordings or AI simulation)
+
+                                    [deaths]
+                                    - // None
+
+/*****************START: TWO FUNCTIONS CALLED FROM ONE FUNCTION*******************/
+For the promptFunctions.py file, I want you to make this function:
+gen_skelletons() // This calls two functions so that s skelleton will be constructed and returned to the caller
+                 // It will call the following functions:
+
+                 
+
+//  This is for each book. Loop through each book and tell ChatGPT to make *chapter_count* of chapters.
+5. 2 Functions: 
+1. gen_chapter_titles()
+Prompt chatGPT with the series name {series_name}, the series plot {series_plot},
+the current book name {book_names[current_book]},
+the main plot {main_plots[current_book]},
+and its sub plots {sub_plots}, then tell ChatGPT to make {chapter_count} from this variable: 
+chapter_titles // These chapters will be stored in only_chapters variable.
+
+2. gen_chapter_skeletons()
+Prompt chatGPT with the series plot, the book plot, its sub plots, and tell this:
+
+"These are the chapters the book will have:
+{only_chapters} // this is passed as an arguement to this function from gen_skelletons()
+
+I want to use the {template_var} narrative structure. Since I will have chat gpt work on one chapter at a time later, 
+it will need to know which narrative structure the book uses, and which part of the narrative structure the chapter is 
+implementing.
+
+I want the chapters to be listed in this format:
+// this is the first chapter of another story. This list of chapters are all just like this:
+
+1. Echoes of Tomorrow
+[The Three-Act Structure]
+[Act 1] 
+
+
+I just used that other stories chapter template as an example.
+
+/*****************END: TWO FUNCTIONS CALLED FROM ONE FUNCTION*******************/
+
+
+
+
+
+/*******START: PART 6******************************/
+//  This is for each book. Loop through each book and do this stuff:
+
+lay_subplots()
+tasks:
+1. loop through each book to do this stuff:
+   2. loop through each 
+   Prompt chatGPT with the series plot, the book plot, the list of characters for the current book, and list the sub plots of 
+   the current book.
+
+and then tell ChatGPT to make the number of chapters from this variable:
+chapters_count // These chapters will be stored in only_chapters variable.
+
+6. Tell ChatGPT to break each sub plot up into the same narrative structure that the book is being designed
+   for, then assign each piece to a chapter that has the required characters.
+
+/*******START: PART 6******************************/
+
+
+
+
+
+lay_mainplot()
+7. Tell chatGPT the story plot, then list the chapters to it with the empty main 
+   plot variables (all of them). Tell ChatGPT to fill in the main plot sections of 
+   each chapter. This is for the single file that lists the chapters.
+   
+   
+8. Prompt chatGPT with the series plot, the story plot, and the skeleton of the book.
+   Tell it to assign the characters to the chapter in accordance with my example file, 
+   along with the character deaths in the chapters, with notes of how they exist after deaths
+   if they appear again. Then prompt it with it's feedback, and tell it to make the corrections 
+   if there are any.
+   
+9. Prompt chatGPT to review each character in the skeleton it just worked to update, and see if
+   
+
+10. Give ChatGPT the story plot, the series plot, the skeleton, and tell it to expand the plot it wrote to
+    be around 3,000 words per chapter. 
+    
+    The file section should be converted so that parts like [Act 1] are not just assumed that the AI knows that it
+    is a chapter that is in Act 1. It thought I wanted it to write Act 1 of chapter 2, and even made a sub-title.
+    
+    Store the new plot into the file specifically for the chapter the plot was made 
+    for.
+    
+    Then once it has expanded the main plot of the chapter, if a sub-plot is present, 
+    then have it expand it further by incorporating the plot of the sub-plot.
+
+
+
+
+*Second: File handling
+1. Make directory with series title. 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much.
+
+2. Make directory with book title(s). 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much.
+
+3. Make a character text file to store the storie's characters, and the
+   other info that I have in the example character file.
+
+4. Make files in each book directory, but with each chapter title as file names. 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much for file name.
+
+5. Make a sub-plot file to store these sub-plots in.
+
+*Third: Book refinement
+present two chapters at a time to chat gpt. Inform it that it is only to answer "yes" or "no"
+Ask it if the two chapters appear to have any contradictions with eachother that need adjusting.
+If "yes" then ask it which chapter number.
+Then, present chatgpt with the two chapters, and tell it to fix the problem chapter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********************************************/
+1. Tell chatGPT to make a name for a *category_var* book or movie series of 
+   *series_var* number of books.
+   Store series name in variable.
+
+2. Make directory with series title. 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much.
+
+3. Make directory with book title(s). 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much.
+
+5. Tell ChatGPT to make a plot for the entire series in *storyDes_var* style.
+   Store plot in *seriesPlot_var*. 
+   
+   
+   
+6. Tell chatGPT to make a plot for each *bookPlot_var*
+  (The variable *bookPlot_var* may be a string list, so that the element number
+   is -1 less than the book number, and to simplify the program design.)
+   
+7. Tell ChatGPT the series plot, then the current book plot, then
+   "List the characters the book will have."
+   
+8. Make a character text file to store the storie's characters, and the
+   other info that I have in the example character file.
+
+9. 3 Parts: 1. Tell ChatGPT to make *chapNum_var" of chapters. 
+            2. Tell it to list the *template_var* and its sections
+               under the chapter, like i have in my chapters.txt example file.
+            3. List which characters appear in which chapters and die in which chapters.
+
+10. Make files in each book directory, but with each chapter title as file names. 
+   Replace any restricted chars with underlines.
+   Cut off the text if there is too much for file name.
+
+11. Tell chatGPT the story plot, then list the chapters to it with the empty plot
+   variables. Tell ChatGPT to fill in the plot sections of each chapter. This is 
+   for the single file that lists the chapters.
+   
+   
+12. Tell chatGPT the story plot, then tell it to generate 5 subplots like this
+
+    [sub-plot 1]
+    // the sub-plot is written here
+    
+    [sub-plot 2]
+    // the sub-plot is written here
+    
+    [sub-plot 3]
+    // the sub-plot is written here
+    
+    
+13. Make a sub-plot file to store these sub-plots in.
+
+14. Tell chatGPT the story plot, tell it the sub-plots as listed above, then list
+    the chapters and info from the file with them all listed with a small plot.
+    Tell ChatGPT to list the sub-plot labels under the chapters that the sub-plots
+    appear in using a tag like [sub-plot 2]
+
+15. Give ChatGPT the chapter information, and tell it to expand the plot it wrote. 
+    Store the new plot into the file specifically for the chapter the plot was made 
+    for.
+    
+    Then once it has expanded the main plot of the chapter, if a sub-plot is present, 
+    then have it expand it further by incorporating the plot of the sub-plot.
+
+

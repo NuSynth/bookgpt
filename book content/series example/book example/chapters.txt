@@ -1,0 +1,35 @@
+1. Echoes of Tomorrow
+[The Three-Act Structure] // This is for chatGPT to see that the book follows the three-act structure
+[Act 1] // This part is for chatGPT to know which part of the narrative structure of the book that the chapter is being designed for. 
+[new characters list] // list characters that are being introduced into the story
+[character list] // list the rest of the characters who appear in this chapter
+[death list] // list characters who die in this chapter
+[Plot] // This contains the plot of the story
+
+
+
+*Note: If a character appears in a later chapter than when it died, have the AI use the character either as a memory,
+a spirit, a conversation piece. The character can not just reappear after dying.
+
+
+
+
+2. The Synapse Heist
+3. Digital Shadows
+4. Minds in the Machine
+5. The Ghost Protocol
+6. Neural Underworld
+7. Echoes in the Circuit
+8. Codes of Conscience
+9. The Ethereal Network
+10. Phantom Algorithms
+11. Firewall Betrayals
+12. Singularity's Edge
+13. Quantum Entanglements
+14. The Cypher Rebellion
+15. Cortex Siege
+16. Binary Fates
+17. Reboot Resistance
+18. Nexus Unveiled
+19. The Final Interface
+20. Dawn of the Singularity
