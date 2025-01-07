@@ -13,3 +13,7 @@ Open a directory that you want the text files to be stored in, and run this in a
 python3 '/path/to/bookGPTgui.py'
 
 using the full path from the root of your system to the python file.
+
+
+# WARNING ON TOKENS
+You have to buy tokens from OpenAI in order to use the program. I'm doing what I can to reduce the number of tokens that it uses. I just spent a bunch of money testing this program. Dont blame me if you don't like how many tokens it cost to make a book, or if you didn't have enough tokens for it to finish making a book, or if you don't like the book and your tokens went to waste. I don't like how much it costs, and Im the one who made the program. The update I gave it to make the chapters bigger made it a lot more expensive per-book. If you want it to make a cheaper book, then just erase make_chapter2 and replace the call for make_chapter2 to make_chapter. That makes a way cheaper book, but its way shorter, and the quality is worse.
