@@ -1,5 +1,15 @@
 # bookgpt
-This program is intended to guide ChatGPT through prompts to make it write entire novels and series of novels.
+This program is intended to guide ChatGPT through prompts to make it write entire novels. Later updates will enable it to make series of novels.
+
+The books it makes require some minor edits so that the chapters flow seemlessly. It outputs text files. The users has to make the bookfile themselves. 
 
 
-This program is not yet complete. There are a couple of sections left to write. I actually got sick of working on it, because I dont even like the program. But it will be able to generate a ton of books within a few minutes, and has the capability to make the user a lot of money by selling the novels on Amazon, without the user doing any more work other than uploading the books to Amazon.
+Don't check the box for custom number of chapters. It doesn't work right yet. I only left that in the GUI because I dont feel like changing more of the GUI code right now.
+
+In order to run the program, you have to get an API key from OpenAI, and you probably need to setup a virtual environment to run this. I use a virtual environment.
+
+Open a directory that you want the text files to be stored in, and run this in a terminal:
+
+python3 '/path/to/bookGPTgui.py'
+
+using the full path from the root of your system to the python file.
