@@ -14,6 +14,8 @@ python3 '/path/to/bookGPTgui.py'
 
 using the full path from the root of your system to the python file.
 
+# AUTHOR SYSTEM
+If you run the program, you will notice that users can select the story to be designed in the style of one author, while having it write in the style of another. This is to reduce the risk that it will plagiarize a particular author. It's possible that it will design a story pretty closely to a story designed by the author selected for the style of the design, but if a different author is selected for the style of the writing then I think the risk of plagiarization is pretty low. Plus, I have the story idea box, which allows users to provide an idea for the story of their own, which even further decreases the chance of the artificial intelligence performing and plagiarization. So that's what those things are about. Hopefully the works that get produced are as original as can be.
 
 # WARNING ON TOKENS
 You have to buy tokens from OpenAI in order to use the program, unless you're using a local model on your hardware. I'm doing what I can to reduce the number of tokens that it uses. I just spent a bunch of money testing this program. Dont blame me if you don't like how many tokens it cost to make a book, or if you didn't have enough tokens for it to finish making a book, or if you don't like the book and your tokens went to waste. I don't like how much it costs, and I'm the one who made the program. The update I gave it to make the chapters bigger made it a lot more expensive per-book. If you want it to make a cheaper book, then just replace the call for make_chapter2 to make_chapter. That makes a way cheaper book, but its way shorter. Another way to reduce the cost is to downgrade which GPT model the program calls. It uses GPT 4 right now, but it might do ok with a weaker GPT model.
@@ -24,6 +26,8 @@ The current quality of the books it produces is low. The quality will go up quit
 
 # LOCALLY RAN LLM MODEL
 If you run a GPT model, or some other LLM on your own computer, this program should be pretty easy to modify to use with that, and it wouldn't cost you anymore than whatever electricity the model causes your hardware to consume. You could just pump out one book after another and it would probably cost you next to nothing.
+
+
 
 
 # PROJECT GOAL
