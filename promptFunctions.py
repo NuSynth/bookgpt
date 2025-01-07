@@ -12,7 +12,7 @@
 from openai import OpenAI
 
 client = OpenAI(
-  api_key = "PUT YOUR API KEY HERE OR SET IT FROM AN ENVIRONMENT VARIABLE",
+  api_key = "YOUR API KEY GOES HERE",
 )
 
 
@@ -175,8 +175,16 @@ def update_inventories(characters, chapter):
                 {"role": "user", "content": f"Here is a chapter you wrote: {chapter}\n\n\n\n These are the characters, descriptions, and their inventories, for the book I am writing: {characters}\n\n I need you to output that list of characters and all of their details, but if the inventories of any of the characters in that chapter need to be updated in the list of characters, then I need you to update the inventories in the list of characters."}
             ]
         )
-        characters = response.choices[0].message.content
+        characters2 = response.choices[0].message.content
 
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"Character Sheet 1:\n{characters}\n\n\nCharacter Sheet 2:\n{characters2}\n\n\nThe inventories in Character Sheet 2 may be different for some characters than in Character Sheet 1 because it might be updated. But if Character Sheet 2 is missing any characters from Character Sheet 1, then I need you to re-write Character Sheet 2 so that it has all characters and their information and inventories."}
+            ]
+        )
+        characters = response.choices[0].message.content
         return characters.strip()
     except Exception as e:
         print(f"An error occurred: {e}")
