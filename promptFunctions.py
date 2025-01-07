@@ -99,20 +99,8 @@ def characters_in_book(book_plot):
         print(f"An error occurred: {e}")
         return None
 
-def character_inventories(chapter, characters):
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a creative assistant."},
-                {"role": "user", "content": f"Here is a chapter that one or more of these characters in a book being made are involved in:\n\n{chapter}\n\n\n\nHere is the character sheet for the whole book:\n\n{characters}\n\nThe characters each have an inventory. If a character in the character sheet gained an item from the part of the chapter I showed you, then output the entire character sheet with the updated inventory of any character that gained an item do the same if an item is no longer in any of the characters inventories. If no item was added to or subtracted from any of the inventories, then simply output the same character sheet that I showed you, with no modifications."}
-            ]
-        )
-        characters = response.choices[0].message.content
-        return characters.strip()
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
+
+
 
 # Generates the template of the book
 def book_template(characters, design_author, category_variable, book_plot, chapter_quantity):
@@ -163,7 +151,7 @@ def write_to_book(characters, custom_text_input, book_plot, book_name, category_
 
         loop_count = loop_count + 1
         chapter_number = chapter_number + 1
-        characters = character_inventories(chapter, characters)
+        # characters = character_inventories(chapter, characters) need to make this cheaper
 
 # TODO - Modify this so that it keeps a file that it reads and writes to as the chapter is written. Showing the whole chapter at once uses too many tokens. This function will not be used until i do that.
 def update_inventories(characters, chapter):
@@ -182,6 +170,22 @@ def update_inventories(characters, chapter):
             messages=[
                 {"role": "system", "content": "You are a creative assistant."},
                 {"role": "user", "content": f"Character Sheet 1:\n{characters}\n\n\nCharacter Sheet 2:\n{characters2}\n\n\nThe inventories in Character Sheet 2 may be different for some characters than in Character Sheet 1 because it might be updated. But if Character Sheet 2 is missing any characters from Character Sheet 1, then I need you to re-write Character Sheet 2 so that it has all characters and their information and inventories."}
+            ]
+        )
+        characters = response.choices[0].message.content
+        return characters.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+# This might be pretty much doing the same as the function above it. Either way, its costing too many tokens and I had to disable its call. Find a cheaper way to do this.
+def character_inventories(chapter, characters):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"Here is a chapter that one or more of these characters in a book being made are involved in:\n\n{chapter}\n\n\n\nHere is the character sheet for the whole book:\n\n{characters}\n\nThe characters each have an inventory. If a character in the character sheet gained an item from the part of the chapter I showed you, then output the entire character sheet with the updated inventory of any character that gained an item do the same if an item is no longer in any of the characters inventories. If no item was added to or subtracted from any of the inventories, then simply output the same character sheet that I showed you, with no modifications."}
             ]
         )
         characters = response.choices[0].message.content
