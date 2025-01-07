@@ -12,7 +12,7 @@
 from openai import OpenAI
 
 client = OpenAI(
-  api_key = "PUT YOUR API KEY HERE",
+  api_key = "PUT YOUR API KEY HERE OR SET IT FROM AN ENVIRONMENT VARIABLE",
 )
 
 
@@ -150,6 +150,7 @@ def write_to_book(characters, custom_text_input, book_plot, book_name, category_
     while loop_count < chapter_count:
         if not check_numchaps:
             chapter = make_chapter2(characters, category_variable, book_template, chapter_author, chapter_number)
+            update_inventories(characters, chapter)
         else:
             chapter = make_custom_chapter(characters, custom_text_input, book_plot, category_variable, book_template, chapter_author, chapter_number)
 
@@ -165,7 +166,21 @@ def write_to_book(characters, custom_text_input, book_plot, book_name, category_
         chapter_number = chapter_number + 1
         characters = character_inventories(chapter, characters)
 
+def update_inventories(characters, chapter):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"Here is a chapter you wrote: {chapter}\n\n\n\n These are the characters, descriptions, and their inventories, for the book I am writing: {characters}\n\n I need you to output that list of characters and all of their details, but if the inventories of any of the characters in that chapter need to be updated in the list of characters, then I need you to update the inventories in the list of characters."}
+            ]
+        )
+        characters = response.choices[0].message.content
 
+        return characters.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 
 # Generate chapters for the book - Just keeping this version here until I know the new function works how I want it to.
 def make_chapter(characters, category_variable, book_template, chapter_author, chapter_number):
@@ -337,6 +352,8 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
             part = response.choices[0].message.content
             chapter += f"\n\n\n{part}"
             word_count = len(chapter.split())
+
+
 
 
         return chapter.strip()
