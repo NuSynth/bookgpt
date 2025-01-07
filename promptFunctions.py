@@ -12,7 +12,7 @@
 from openai import OpenAI
 
 client = OpenAI(
-  api_key = "YOUR API KEY GOES HERE",
+  api_key = "YOUR API KEY HERE",
 )
 
 
@@ -300,6 +300,18 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
         part = response.choices[0].message.content
         chapter += f"\n\n\n{part}"
 
+        # I need to reduce the number of tokens in the prompt. So I am having chatGPT summarize the entire chapter for each iteration of the loop, then having it build the chapter based on that.
+        #summary
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"I am having you write a chapter. This is the chapter:\n{chapter}\n\nI need a summary of the chapter you have written so far."}
+            ]
+        )
+        written_summary = response.choices[0].message.content
+
+
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
@@ -310,28 +322,29 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
         part = response.choices[0].message.content
         chapter += f"\n\n\n{part}"
 
+        #summary
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"I am having you write a chapter. This is the summary of the chapter so far:\n{written_summary}\n\nPlus here is what you just wrote:\n\n{part} I need an updated summary of the chapter you have written so far."}
+            ]
+        )
+        written_summary = response.choices[0].message.content
+
+
 
         # build rest of required parts of chapter
         sentence_count = sentence_count + 1
         while sentence_count < number_of_sentences:
             # I need to reduce the number of tokens in the prompt. So I am having chatGPT summarize the entire chapter for each iteration of the loop, then having it build the chapter based on that.
-            #summary
-            response = client.chat.completions.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"I am having you write a chapter. This is the chapter:\n{chapter}\n\nI need a summary of the chapter you have written so far."}
-                ]
-            )
-            chapter_summary = response.choices[0].message.content
-
 
             # Write Chapter Part from main chapter summary
             response = client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{chapter_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter. {chap_summary_list[sentence_count]}"}
+                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{written_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter. {chap_summary_list[sentence_count]}"}
                 ]
             )
             part = response.choices[0].message.content
@@ -342,10 +355,10 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"I am having you write a chapter. This is the chapter:\n{chapter}\n\nI need a summary of the chapter you have written so far."}
+                    {"role": "user", "content": f"I am having you write a chapter. This is the summary of the chapter so far:\n{written_summary}\n\nPlus here is what you just wrote:\n\n{part} I need an updated summary of the chapter you have written so far."}
                 ]
             )
-            chapter_summary = response.choices[0].message.content
+            written_summary = response.choices[0].message.content
 
 
             # Write Chapter Part
@@ -353,7 +366,7 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{chapter_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
+                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{written_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
                 ]
             )
             part = response.choices[0].message.content
@@ -365,17 +378,17 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"I am having you write a chapter. This is the chapter:\n{chapter}\n\nI need a summary of the chapter you have written so far."}
+                    {"role": "user", "content": f"I am having you write a chapter. This is the summary of the chapter so far:\n{written_summary}\n\nPlus here is what you just wrote:\n\n{part} I need an updated summary of the chapter you have written so far."}
                 ]
             )
-            chapter_summary = response.choices[0].message.content
+            written_summary = response.choices[0].message.content
 
             # Write Chapter Part
             response = client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{chapter_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
+                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{written_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
                 ]
             )
             part = response.choices[0].message.content
@@ -395,10 +408,10 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"I am having you write a chapter. This is the chapter:\n{chapter}\n\nI need a summary of the chapter you have written so far."}
+                    {"role": "user", "content": f"I am having you write a chapter. This is the summary of the chapter so far:\n{written_summary}\n\nPlus here is what you just wrote:\n\n{part} I need an updated summary of the chapter you have written so far."}
                 ]
             )
-            chapter_summary = response.choices[0].message.content
+            written_summary = response.choices[0].message.content
 
 
 
@@ -407,7 +420,7 @@ def make_chapter2(characters, category_variable, book_template, chapter_author, 
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a creative assistant."},
-                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{chapter_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
+                    {"role": "user", "content": f"These are the characters, descriptions, and their inventories, for a book I am writing: {characters}\n\nThe only characters in this chapter are {chapter_characters}\n\n\nThe chapter written in the style of {chapter_author}, and the category is {category_variable}.\n\n\nHere is a summary of what is in the chapter so far:\n\n{written_summary}\n\n\n Here is the part of the chapter that you just wrote {part}\n\n\n\nContinue the chapter."}
                 ]
             )
             part = response.choices[0].message.content
