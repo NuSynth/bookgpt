@@ -21,3 +21,10 @@ You have to buy tokens from OpenAI in order to use the program. I'm doing what I
 
 # WARNING ON BOOK QUALITY
 The current quality of the books it produces is low. The quality will go up quite a bit once the issues I posted get resolved. Probably best not to spend any tokens on this program until this message is no longer in the readme.
+
+# LOCALLY RAN LLM MODEL
+If you run a GPT model, or some other LLM on your own computer, this program should be pretty easy to modify to use with that, and it wouldn't cost you anymore than whatever electricity the model causes your hardware to consume. You could just pump out one book after another and it would probably cost you next to nothing.
+
+
+# PROJECT GOAL
+The goal of this project is to make books that are written well enough that readers would not suspect that they are written by artificial intelligence.
