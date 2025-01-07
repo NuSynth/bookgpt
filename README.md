@@ -1,7 +1,7 @@
 # bookgpt
 This program is intended to guide ChatGPT through prompts to make it write entire novels. Later updates will enable it to make series of novels.
 
-The books it makes require some minor edits so that the chapters flow seemlessly. It outputs text files. The users has to make the bookfile themselves. 
+The books it makes require some minor edits so that the chapters flow seemlessly. It outputs text files. The users have to make the bookfile themselves. 
 
 
 Don't check the box for custom number of chapters. It doesn't work right yet. I only left that in the GUI because I dont feel like changing more of the GUI code right now.
