@@ -31,4 +31,4 @@ If you run a GPT model, or some other LLM on your own computer, this program sho
 
 
 # PROJECT GOAL
-The goal of this project is to make books that are written well enough that readers would have no reason to think that they are written by artificial intelligence. That's because I want to have a program that makes me a bunch of money by simply pushing a button. I'd like to pay for a Ph.D so I can be a Neuroscientist. The goal of the project is for any users of it to be able to have a program that can make them a bunch of money by clicking a button too. I think that goal is getting pretty close.
+The goal of this project is to have a program that lets me make a bunch of money by clicking a button. It would be like collecting all 7 dragon balls and calling shenron each time I click the button. That would be awesome. 
