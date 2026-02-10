@@ -561,7 +561,7 @@ def make_chapter_templates(category_variable, book_template, chapter_author, cha
         # Structure chapter
         messages=[
             {"role": "system", "content": "You are a creative assistant."},
-            {"role": "user", "content": f"{book_template}\n\n I need chapter {chapter_number} and its plot from the above template divided into three parts, similar to a story arc. It should be written in the style of {chapter_author}, and the category is {category_variable}. Do not include the other chapters. Just output what I told you."}
+            {"role": "user", "content": f"{book_template}\n\n I need an outline of chapter {chapter_number} and its plot from the above template divided into three parts, similar to a story arc. It should be written in the style of {chapter_author}, and the category is {category_variable}. Do not include the other chapters. Just output what I told you."}
         ]
         response = client.responses.create(
             model="gpt-5.2",
