@@ -522,7 +522,7 @@ def make_custom_chapter(characters, custom_text_input, book_plot, category_varia
 
 #Write the template to a file so a human can just write the book out.
 # Write chapters to files
-def write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity):
+def write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps):
     directory = "book"
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -533,3 +533,44 @@ def write_to_template(design_author, characters, custom_text_input, book_plot, b
     file_path = os.path.join(directory, filename)
     with open(file_path, "w") as file:
             file.write(template_file)
+    
+    loop_count = 0
+    chapter_number = 1
+    chapter_count = chapter_quantity
+
+    while loop_count < chapter_count:
+        chapter = make_chapter_templates(category_variable, book_template, chapter_author, chapter_number)
+
+        #define file name based on loop iteration
+        filename = f"{chapter_number}.txt"
+        file_path = os.path.join(directory, filename)
+
+        # Write chapter to the file
+        with open(file_path, "w") as file:
+            file.write(chapter)
+
+        loop_count = loop_count + 1
+        chapter_number = chapter_number + 1
+
+
+# Make chapter summaries for the template
+def make_chapter_templates(category_variable, book_template, chapter_author, chapter_number):
+    try:
+        # Structure chapter
+        messages=[
+            {"role": "system", "content": "You are a creative assistant."},
+            {"role": "user", "content": f"{book_template}\n\n I need chapter {chapter_number} and its plot from the above template divided into three parts, similar to a story arc. It should be written in the style of {chapter_author}, and the category is {category_variable}. Do not include the other chapters. Just output what I told you."}
+        ]
+        response = client.responses.create(
+            model="gpt-5.2",
+            input = messages
+        )
+        chapter_summary = response.output_text
+
+        chapter_variable = f"\n\n\nChapter: {chapter_number}\n\nChapter Summary: {chapter_summary}\n\n\n****************************"
+        return chapter_variable.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+            
+    
