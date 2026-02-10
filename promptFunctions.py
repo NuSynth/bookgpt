@@ -540,6 +540,8 @@ def write_to_template(design_author, characters, custom_text_input, book_plot, b
 
     while loop_count < chapter_count:
         chapter = make_chapter_templates(category_variable, book_template, chapter_author, chapter_number)
+        #chapter = "test"
+
 
         #define file name based on loop iteration
         filename = f"{chapter_number}.txt"
