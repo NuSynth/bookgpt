@@ -44,6 +44,9 @@ def main():
         # For Crude Humor
         # check_humor = checkbox_humor
 
+        #For only a template
+        check_template = check_template_var.get()
+
         #### setup_skelletons START####
         # Generate the series name and the series plot
         if not checkbox_checked:  # Use `not` to check for False in Python
@@ -58,14 +61,22 @@ def main():
         characters = pf.characters_in_book(book_plot)
 
         default_twelve = 12
-        if not check_numchaps:
-            book_template = pf.book_template(characters, design_author, category_variable, book_plot, default_twelve)
-            pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, default_twelve, check_numchaps)
-        else:
-            custom_template = pf.book_template(characters, design_author, category_variable, book_name, book_plot, chapter_quantity)
-            pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, custom_template, chapter_author, chapter_quantity, check_numchaps)
+        if not check_template:
+            if not check_numchaps:
+                book_template = pf.book_template(characters, design_author, category_variable, book_plot, default_twelve)
+                pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, default_twelve, check_numchaps)
+            else:
+                custom_template = pf.book_template(characters, design_author, category_variable, book_name, book_plot, chapter_quantity)
+                pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, custom_template, chapter_author, chapter_quantity, check_numchaps)
 
-            #pf.write_to_book(custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps):
+                #pf.write_to_book(custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps):
+        else:
+            if not check_numchaps:
+                book_template = pf.book_template(characters, design_author, category_variable, book_plot, default_twelve)
+                pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
+            else:
+                custom_template = pf.book_template(characters, design_author, category_variable, book_name, book_plot, chapter_quantity)
+                pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
 
 
 
@@ -129,6 +140,11 @@ def main():
     # checkbox_humor = tk.BooleanVar()
     # checkbox = ttk.Checkbutton(styles_frame, text="Crude Humor", variable=checkbox_humor)
     # checkbox.grid(row=7, column=0, columnspan=2, sticky="w")
+
+    # Only output the template of the book so a human can write it.
+    check_template_var = tk.BooleanVar()
+    checkbox = ttk.Checkbutton(styles_frame, text="Only a template", variable=check_template_var)
+    checkbox.grid(row=7, column=0, columnspan=2, sticky="w")
 
     # New End
 
