@@ -66,16 +66,16 @@ def main():
                 book_template = pf.book_template(characters, design_author, category_variable, book_plot, default_twelve)
                 pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, default_twelve, check_numchaps)
             else:
-                custom_template = pf.book_template(characters, design_author, category_variable, book_name, book_plot, chapter_quantity)
+                custom_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
                 pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, custom_template, chapter_author, chapter_quantity, check_numchaps)
 
                 #pf.write_to_book(custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps):
         else:
             if not check_numchaps:
                 book_template = pf.book_template(characters, design_author, category_variable, book_plot, default_twelve)
-                pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
+                pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, default_twelve, check_numchaps)
             else:
-                custom_template = pf.book_template(characters, design_author, category_variable, book_name, book_plot, chapter_quantity)
+                custom_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
                 pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
 
 
