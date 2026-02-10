@@ -88,7 +88,7 @@ def main():
     # Dropdown for "Writing"
     writing_label = ttk.Label(styles_frame, text="Writing:")
     writing_label.grid(row=0, column=0, sticky="w")
-    writing_authors = ["Ernest Hemingway", "Douglas Adams", "Clive Barker", "Riddley Scott", "Insane Donald Trump", "Miguel de Cervantes", "Phillip k Dick", "Madison Love", "Jessie Gussman", "Rl stine", "Charles Dickens", "Antoine de Saint-Exupéry", "J.K. Rowling", "Gabriel García Márquez", "Harper Lee", "Margaret Mitchell", "Paulo Coelho", "Anna Sewell", "E.L. James", "F. Scott Fitzgerald", "Johanna Spyri", "Markus Zusak", "William P. Young", "George Orwell", "Erich Maria Remarque", "Emily Brontë", "Oscar Wilde", "Bram Stoker", "Mary Shelley"]
+    writing_authors = ["Ernest Hemingway", "Douglas Adams", "Clive Barker", "Riddley Scott","John Carpenter", "Insane Donald Trump", "Miguel de Cervantes", "Phillip k Dick", "Madison Love", "Jessie Gussman", "Rl stine", "Charles Dickens", "Antoine de Saint-Exupéry", "J.K. Rowling", "Gabriel García Márquez", "Harper Lee", "Margaret Mitchell", "Paulo Coelho", "Anna Sewell", "E.L. James", "F. Scott Fitzgerald", "Johanna Spyri", "Markus Zusak", "William P. Young", "George Orwell", "Erich Maria Remarque", "Emily Brontë", "Oscar Wilde", "Bram Stoker", "Mary Shelley"]
     writing_var = tk.StringVar()
     writing_dropdown = ttk.Combobox(styles_frame, textvariable=writing_var, values=writing_authors)
     writing_dropdown.grid(row=0, column=1, sticky="ew")
@@ -98,7 +98,7 @@ def main():
     design_label = ttk.Label(styles_frame, text="Story Design:")
     design_label.grid(row=1, column=0, sticky="w")
     
-    design_authors = ["Ernest Hemingway", "Douglas Adams", "Clive Barker", "Ridley Scott", "Insane Donald Trump", "Miguel de Cervantes", "Phillip k Dick", "Madison Love", "Jessie Gussman", "H. P. Lovecraft", "Rl stine", "Charles Dickens", "Antoine de Saint-Exupéry", "J.K. Rowling", "Gabriel García Márquez", "Harper Lee", "Margaret Mitchell", "Paulo Coelho", "Anna Sewell", "E.L. James", "F. Scott Fitzgerald", "Johanna Spyri", "Markus Zusak", "William P. Young", "George Orwell", "Erich Maria Remarque", "Emily Brontë", "Oscar Wilde", "Bram Stoker", "Mary Shelley"]
+    design_authors = ["Ernest Hemingway", "Douglas Adams", "Clive Barker", "Ridley Scott", "John Carpenter", "Insane Donald Trump", "Miguel de Cervantes", "Phillip k Dick", "Madison Love", "Jessie Gussman", "H. P. Lovecraft", "Rl stine", "Charles Dickens", "Antoine de Saint-Exupéry", "J.K. Rowling", "Gabriel García Márquez", "Harper Lee", "Margaret Mitchell", "Paulo Coelho", "Anna Sewell", "E.L. James", "F. Scott Fitzgerald", "Johanna Spyri", "Markus Zusak", "William P. Young", "George Orwell", "Erich Maria Remarque", "Emily Brontë", "Oscar Wilde", "Bram Stoker", "Mary Shelley"]
     design_var = tk.StringVar()
     design_dropdown = ttk.Combobox(styles_frame, textvariable=design_var, values=design_authors)
     design_dropdown.grid(row=1, column=1, sticky="ew")
