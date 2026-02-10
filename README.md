@@ -8,14 +8,14 @@ Don't check the box for custom number of chapters. It doesn't work right yet. I 
 
 In order to run the program, you have to get an API key from OpenAI, and you probably need to setup a virtual environment to run this. I use a virtual environment.
 
-Open a directory that you want the text files to be stored in, and run this in a terminal:
+Open a terminal in the directory that you want the text files to be stored in, and run this in the terminal:
 
 python3 '/path/to/bookGPTgui.py'
 
 using the full path from the root of your system to the python file.
 
 # AUTHOR SYSTEM
-If you run the program, you will notice that users can select the story to be designed in the style of one author, while having it write in the style of another. This is to reduce the risk that it will plagiarize a particular author. It's possible that it will design a story pretty closely to a story designed by the author selected for the style of the design, but if a different author is selected for the style of the writing then I think the risk of plagiarization is pretty low. Plus, I have the story idea box, which allows users to provide an idea for the story of their own, which even further decreases the chance of the artificial intelligence performing and plagiarization. So that's what those things are about. Hopefully the works that get produced are as original as can be.
+If you run the program, you will notice that users can select the story to be designed in the style of one author, while having it write in the style of another. This is to reduce the risk that it will plagiarize a particular author. It's possible that it will design a story pretty closely to a story designed by the author selected for the style of the design, but if a different author is selected for the style of the writing then I think the risk of plagiarization is pretty low. Plus, I have the story idea box, which allows users to provide an idea for the story of their own, which even further decreases the chance of the artificial intelligence performing plagiarization. So that's what those things are about. Hopefully the works that get produced are as original as can be.
 
 # WARNING ON TOKENS
 This warning only applies to the use of this program when the checkbox "Only a template" is not checked.
@@ -24,7 +24,7 @@ You have to buy tokens from OpenAI in order to use the program, unless you're us
 
 
 # WARNING ON BOOK QUALITY
-The current quality of the books it produces is low. But it produces good ideas and templates. Right not it is best to run this with the checkbox ticked for "Only a template." 
+The current quality of the books it produces is low. But it produces good ideas and templates. Right now it is best to run this with the checkbox ticked for "Only a template." 
 
 
 
