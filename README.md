@@ -15,6 +15,3 @@ You need both an API key for Google Gemini and an API key for OpenAI.
 
 # WARNING ON TOKENS
 Using this program costs tokens from OpenAI and Google Gemini, if the checkbox is not checked for "Only a template." If it is checked, and you just want templates for chapters, then it only costs tokens from OpenAI.
-
-# WARNING ON BOOK QUALITY
-The current quality of the books is ok for young adults. I have not yet tested it for anything more complicated.
