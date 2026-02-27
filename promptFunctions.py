@@ -1,14 +1,3 @@
-# FIXME: Perform Unit testing for ALL FUNCTIONS by: 
-# 1. Isolating the function, give it what I know the variables should contain.
-# 2. Take the prompt from this, replace the variables with values they need to contain.
-# 3. Give prompt to chatGPT in the web interface i pay a monthly fee to use.
-# 4. Correct function if output is not what is needed.
-
-
-
-# Ensure your OPENAI_API_KEY is set in your environment variables
-
-
 import os
 import re
 from openai import OpenAI
