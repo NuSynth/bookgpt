@@ -1,12 +1,3 @@
-# This not is for chatGPT while I get help from it to complete this software. 
-# Stop putting if blocks in the function generate_story() because the program
-# is only for me, I do not know python, these if blocks are cluttering the code
-# because python is not as easy for me to read as C. Since it is only me using
-# the program, and I will know to be sure that I will have all of the relevent date
-# before any function called from within generate_story() will be available. If
-# I have any problems like that, then I will add the if parts later once the rest 
-# of the program is finished.
-
 import promptFunctions as pf
 import tkinter as tk
 from tkinter import ttk
@@ -19,12 +10,6 @@ def main():
     root.title("Story Generator")
     
     def generate_story():
-        # The reason I don't have skelleton setup section and write_chapters section in their own separate sub-functions
-        # is because the skelleton setup section simply fills variables and lists that are needed in order to actually write the books.
-        # It would be a lot of parts to give to a write_chapters function. It's easier to just do it all here.
-        # In the design documents, I can stil treat these as two separate functions, as they pretty much are modular.
-
-
         # GUI inputs START
         # setup_skelletons section
         design_author = design_var.get()
@@ -60,17 +45,19 @@ def main():
         #For character generation
         characters = pf.characters_in_book(book_plot)
 
+        TRUE = 1
+        FALSE = 0
         DEFAULT_TWELVE = 12
         if not check_numchaps:
             chapter_quantity = DEFAULT_TWELVE
 
         if not check_template:
-            book_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
-            pf.write_to_book(characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
-            #pf.write_to_book(custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps):
+            template = FALSE
         else:
-            book_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
-            pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, check_numchaps)
+            template = TRUE
+
+        book_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
+        pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
 
 
 
