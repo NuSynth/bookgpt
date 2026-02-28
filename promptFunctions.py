@@ -244,13 +244,13 @@ def write_chapter(chapter_template, chapter_author, chapter_number):
             model='gemini-3.1-pro-preview', 
             contents=prompt,
             config=types.GenerateContentConfig(
-                system_instruction="You are a professional novelist. Focus on 'showing, not telling.'",
+                system_instruction="You are a professional novelist. You must strictly write in the third-person. Never use first-person narration. Focus on 'showing, not telling.'",
                 # The 2026 way to handle "Thinking"
                 thinking_config=types.ThinkingConfig(
                     include_thoughts=False, # Set to True if you want to see the AI's internal notes
                     thinking_level=types.ThinkingLevel.HIGH 
                 ),
-                temperature=0.8
+                temperature=1.0
             )
         )
         
