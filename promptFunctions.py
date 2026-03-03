@@ -235,32 +235,41 @@ def make_chapter_templates(category_variable, book_template, chapter_author, cha
 
 
 def write_chapter(chapter_template, chapter_author, chapter_number):
-    try:
-        # Prompt construction
-        prompt = f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"
+    # List of models to try in order of preference
+    # 3.1 Pro is the goal, 3.1 Flash is the reliable backup
+    models_to_try = ['gemini-3.1-pro-preview', 'gemini-3-flash-preview']
+    
+    for model_name in models_to_try:
+        try:
+            prompt = f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"
 
-        # API Call using the 2026 'google-genai' SDK
-        response = client_gemini.models.generate_content(
-            model='gemini-3.1-pro-preview', 
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                system_instruction="You are a professional novelist. You must strictly write in the third-person. Never use first-person narration. Focus on 'showing, not telling.'",
-                # The 2026 way to handle "Thinking"
-                thinking_config=types.ThinkingConfig(
-                    include_thoughts=False, # Set to True if you want to see the AI's internal notes
-                    thinking_level=types.ThinkingLevel.HIGH 
-                ),
-                temperature=1.0
+            response = client_gemini.models.generate_content(
+                model=model_name, 
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=(
+                        f"You are a novelist."
+                        "You must strictly write in the third-person. Never use first-person narration."
+                    ),
+                    thinking_config=types.ThinkingConfig(
+                        # Pro supports HIGH, Flash usually supports LOW or NONE
+                        thinking_level=types.ThinkingLevel.HIGH if 'pro' in model_name else types.ThinkingLevel.LOW
+                    ),
+                    temperature=1.0
+                )
             )
-        )
-        
-        if not response or not response.text:
-            return ""
 
-        chapter_written = response.text
-        chapter_variable = f"\n\n\nChapter: {chapter_number}\n\nChapter Written:\n\n {chapter_written}\n\n\n****************************"
-        return chapter_variable.strip()
+            if response and response.text:
+                chapter_written = response.text
+                return f"Chapter: {chapter_number}\n(Model used: {model_name})\n\n{chapter_written}".strip()
 
-    except Exception as e:
-        print(f"Gemini Error: {e}")
-        return "" # Keep the GUI from crashing
+        except Exception as e:
+            # If we hit "High Demand" (503), we catch it and try the next model
+            if "503" in str(e) or "high demand" in str(e).lower():
+                print(f"Skipping {model_name} due to high demand. Trying backup...")
+                continue 
+            else:
+                print(f"Gemini Error ({model_name}): {e}")
+                return ""
+
+    return "All models are currently unavailable. Please try again in a few minutes."
