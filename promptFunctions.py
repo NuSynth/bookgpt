@@ -14,13 +14,6 @@ client_gpt = OpenAI(
   api_key = "YOUR_API_KEY_HERE",
 )
 
-
-
-
-
-#openai.api_key = os.getenv('OPENAI_API_KEY')  # Assume you set this environment variable
-
-
 # Generates the name of the book
 def name_book(design_author, category_variable):
     try:
@@ -91,12 +84,12 @@ def custom_book_plot(custom_text_input, design_author, category_variable, book_n
         return None
 
 
-def characters_in_book(book_plot):
+def characters_in_book(book_plot, chapter_quantity):
     try:
         messages=[
             {"role": "system", "content": "You are a creative assistant."},
             #{"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nI need a couple of protagonists and supporting characters, along with their descriptions, for a book with that plot. Make an antagonist for the book as well, if it would be good to have one for a book with that plot. The book has 12 chapters, so don't do too many protagonists."}
-            {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nI need a couple of protagonists and supporting characters, along with their descriptions and inventories, for a book with that plot. Make an antagonist with an inventory for the book as well, if it would be good to have one for a book with that plot. The book has 12 chapters, so don't do too many protagonists."}
+            {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nI need  some protagonists and supporting characters, along with their descriptions and inventories for a book with that plot. Make an antagonist with an inventory for the book as well. The book has {chapter_quantity} chapters, so make the appropriate number of characters."}
         ]
         response = client_gpt.responses.create(
             model="gpt-5.2",
@@ -110,12 +103,18 @@ def characters_in_book(book_plot):
 
 
 # Generates the template of the book
-def book_template(characters, design_author, category_variable, book_plot, chapter_quantity):
+def book_template(book_genre, characters, design_author, category_variable, book_plot, chapter_quantity):
     try:
-        messages=[
-            {"role": "system", "content": "You are a creative assistant."},
-            {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the 3 act structure. List {chapter_quantity} chapters within the 3 act structure, and each chapter needs to have a brief plot, along which characters are in the chapters from the list of characters I provided. It is a {category_variable} book. Write it in the style of {design_author}."}
-        ]
+        if book_genre in ["Horror", "Sci-Fi horror"]:
+            messages=[
+                {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
+                {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the structure that {design_author} uses. List {chapter_quantity} chapters within the structure, and each chapter needs to have a brief plot, along with which characters are in the chapters from the list of characters I provided. Some characters can be assigned to die in particular chapters. It is a {category_variable} book. Write it in the style of {design_author}."}
+            ]
+        else:
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the structure that {design_author} uses. List {chapter_quantity} chapters within the structure, and each chapter needs to have a brief plot, along with which characters are in the chapters from the list of characters I provided. Some characters can be assigned to die in particular chapters. It is a {category_variable} book. Write it in the style of {design_author}."}
+            ]
         response = client_gpt.responses.create(
             model="gpt-5.2",
             input = messages
@@ -130,7 +129,7 @@ def book_template(characters, design_author, category_variable, book_plot, chapt
 
 #Write the template to a file so a human can just write the book out.
 # Write chapters to files
-def write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template):
+def write_to_template(book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template):
     directory = "book"
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -148,12 +147,17 @@ def write_to_template(design_author, characters, custom_text_input, book_plot, b
 
     while loop_count < chapter_count:
         character_list = chapter_characters(book_template, chapter_number, characters)
-        chapter_template = make_chapter_templates(category_variable, book_template, chapter_author, chapter_number, character_list)
+        chapter_template = make_chapter_templates(book_genre, category_variable, book_template, chapter_author, chapter_number, character_list)
         #chapter = "test"
 
         FALSE = 0
+        CHAT_GPT = 1
+        GEMINI = 2
         if template == FALSE:
-            chapter_written = write_chapter(chapter_template, chapter_author, chapter_number)
+            if model_choice == CHAT_GPT:
+                chapter_written = chatgpt_write_chapter(book_genre, chapter_template, chapter_author, chapter_number)
+            else:
+                chapter_written = gemini_write_chapter(chapter_template, chapter_author, chapter_number) # Gemini just won't do blood and gore type stuff.
         else:
             chapter_written = "."
 
@@ -213,13 +217,19 @@ def chapter_characters(book_template, chapter_number, characters):
     
 
 # Make chapter summaries for the template
-def make_chapter_templates(category_variable, book_template, chapter_author, chapter_number, character_list):
+def make_chapter_templates(book_genre, category_variable, book_template, chapter_author, chapter_number, character_list):
     try:
         # Structure chapter
-        messages=[
-            {"role": "system", "content": "You are a creative assistant."},
-            {"role": "user", "content": f"{book_template}\n\n I need an outline of chapter {chapter_number}. It should be written in the style of {chapter_author}, and the category is {category_variable}. Here is the character information for the chapter:\n\n{character_list}\n\nDo not include the other chapters. Just output what I told you."}
-        ]
+        if book_genre in ["Horror", "Sci-Fi horror"]:
+            messages=[
+                {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
+                {"role": "user", "content": f"{book_template}\n\n I need an outline of chapter {chapter_number}. It should be written in the style of {chapter_author}, and the category is {category_variable}. Here is the character information for the chapter:\n\n{character_list}\n\nDo not include the other chapters. Just output what I told you."}
+            ]
+        else:
+            messages=[
+                {"role": "system", "content": "You are a creative assistant."},
+                {"role": "user", "content": f"{book_template}\n\n I need an outline of chapter {chapter_number}. It should be written in the style of {chapter_author}, and the category is {category_variable}. Here is the character information for the chapter:\n\n{character_list}\n\nDo not include the other chapters. Just output what I told you."}
+            ]
         response = client_gpt.responses.create(
             model="gpt-5.2",
             input = messages
@@ -234,7 +244,35 @@ def make_chapter_templates(category_variable, book_template, chapter_author, cha
     
 
 
-def write_chapter(chapter_template, chapter_author, chapter_number):
+# Make chapter summaries for the template
+def chatgpt_write_chapter(book_genre, chapter_template, chapter_author, chapter_number):
+    try:
+        # Structure chapter
+        if book_genre in ["Horror", "Sci-Fi horror"]:
+            messages=[
+                {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
+                {"role": "user", "content": f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"}
+                
+            ]
+        else:
+            messages=[
+                {"role": "system", "content": "You are a novelist. You must strictly write in the third-person. Never use first-person narration."},
+                {"role": "user", "content": f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"}
+            ]
+        response = client_gpt.responses.create(
+            model="gpt-5.2",
+            input=messages,
+            temperature=1.2   # higher = more creative
+        )
+        chapter_summary = response.output_text
+
+        chapter_variable = f"\n\n\nChapter: {chapter_number}\n\nChapter Summary: {chapter_summary}\n\n\n****************************"
+        return chapter_variable.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+    
+def gemini_write_chapter(chapter_template, chapter_author, chapter_number):
     # List of models to try in order of preference
     # 3.1 Pro is the goal, 3.1 Flash is the reliable backup
     models_to_try = ['gemini-3.1-pro-preview', 'gemini-3-flash-preview']
