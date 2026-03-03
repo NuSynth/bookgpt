@@ -67,8 +67,44 @@ def main():
     styles_frame.grid(row=0, column=0, padx=20, pady=10, sticky="ew")
 
     #For book design and writing style
-    authors_list = ["Isaac Asimov", "Ernest Hemingway", "Douglas Adams", "John Carpenter", "Clive Barker", "Ridley Scott", "Rod Serling", "Matthew J. Costello", "Insane Donald Trump", "Miguel de Cervantes", "Phillip k Dick", "Madison Love", "Jessie Gussman", "Rl stine", "Charles Dickens", "Antoine de Saint-Exupéry", "J.K. Rowling", "Gabriel García Márquez", "Harper Lee", "Margaret Mitchell", "Paulo Coelho", "Anna Sewell", "E.L. James", "F. Scott Fitzgerald", "Johanna Spyri", "Markus Zusak", "William P. Young", "George Orwell", "Erich Maria Remarque", "Emily Brontë", "Oscar Wilde", "Bram Stoker", "Mary Shelley"]
-
+    authors_list = [
+        "Anna Sewell",
+        "Antoine de Saint-Exupéry",
+        "Antoine de Saint-Exupéry",
+        "Bram Stoker",
+        "Charles Dickens",
+        "Clive Barker",
+        "Douglas Adams",
+        "E.L. James",
+        "Emily Brontë",
+        "Erich Maria Remarque",
+        "Ernest Hemingway",
+        "F. Scott Fitzgerald",
+        "Frank Herbert",
+        "Gabriel García Márquez",
+        "George Orwell",
+        "Harper Lee",
+        "Insane Donald Trump",
+        "Isaac Asimov",
+        "J.K. Rowling",
+        "Jessie Gussman",
+        "Johanna Spyri",
+        "John Carpenter",
+        "Madison Love",
+        "Margaret Mitchell",
+        "Markus Zusak",
+        "Mary Shelley",
+        "Matthew J. Costello",
+        "Miguel de Cervantes",
+        "Oscar Wilde",
+        "Paulo Coelho",
+        "Phillip K. Dick",
+        "Ridley Scott",
+        "RL Stine",
+        "Rod Serling",
+        "William Gibson",
+        "William P. Young"
+    ]
     # Dropdown for "Writing"
     writing_label = ttk.Label(styles_frame, text="Writing:")
     writing_label.grid(row=0, column=0, sticky="w")
