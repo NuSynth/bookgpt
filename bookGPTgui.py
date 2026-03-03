@@ -32,6 +32,12 @@ def main():
         #For only a template
         check_template = check_template_var.get()
 
+        # A.I. model selection
+        model_choice = model_selected.get()
+
+        # This is needed for some genres to have blood and gore
+        book_genre = category_var.get()
+
         #### setup_skelletons START####
         # Generate the series name and the series plot
         if not checkbox_checked:  # Use `not` to check for False in Python
@@ -43,7 +49,7 @@ def main():
 
 
         #For character generation
-        characters = pf.characters_in_book(book_plot)
+        characters = pf.characters_in_book(book_plot, chapter_quantity)
 
         TRUE = 1
         FALSE = 0
@@ -56,8 +62,8 @@ def main():
         else:
             template = TRUE
 
-        book_template = pf.book_template(characters, design_author, category_variable, book_plot, chapter_quantity)
-        pf.write_to_template(design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
+        book_template = pf.book_template(book_genre, characters, design_author, category_variable, book_plot, chapter_quantity)
+        pf.write_to_template(book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
 
 
 
@@ -105,6 +111,7 @@ def main():
         "William Gibson",
         "William P. Young"
     ]
+
     # Dropdown for "Writing"
     writing_label = ttk.Label(styles_frame, text="Writing:")
     writing_label.grid(row=0, column=0, sticky="w")
@@ -127,13 +134,25 @@ def main():
     design_label = ttk.Label(styles_frame, text="Story Category:")
     design_label.grid(row=2, column=0, sticky="w")
     
-    categories = ["Fiction", "Comedy Science Fiction", "Science Fiction","Sci-Fi horror","Horror", "Holiday Romance", "Fantasy", "Comedy", "Christian SciFi", "Christian Fantasy"]
+    categories = [
+        "Fiction", 
+        "Comedy Science Fiction",
+        "Science Fiction",
+        "Sci-Fi horror",
+        "Horror",
+        "Holiday Romance",
+        "Fantasy",
+        "Comedy",
+        "Christian SciFi",
+        "Christian Fantasy"
+    ]
+
+
     category_var = tk.StringVar()
     design_dropdown = ttk.Combobox(styles_frame, textvariable=category_var, values=categories)
     design_dropdown.grid(row=2, column=1, sticky="ew")
     design_dropdown.set("Select a Category")
 
-    # New start
     # Checkbox for additional option
     checkbox_var = tk.BooleanVar()
     checkbox = ttk.Checkbutton(styles_frame, text="Custom Idea", variable=checkbox_var)
@@ -165,7 +184,19 @@ def main():
     checkbox = ttk.Checkbutton(styles_frame, text="Only a template", variable=check_template_var)
     checkbox.grid(row=7, column=0, columnspan=2, sticky="w")
 
-    # New End
+    # Radio button for A.I. selection
+    model_selected = tk.IntVar(value=1)
+
+    radio1 = tk.Radiobutton(styles_frame, text="ChatGPT", variable=model_selected, value=1)
+    radio2 = tk.Radiobutton(styles_frame, text="Gemini", variable=model_selected, value=2)
+
+    spacer = tk.Frame(styles_frame, height=20) # This is to separate it from other options a little
+    spacer.grid(row=8, column=0)
+
+    radio_label = ttk.Label(styles_frame, text="A.I. model to write story")
+    radio_label.grid(row=9, column=0, sticky="w")
+    radio1.grid(row=10, column=0, columnspan=4, sticky="w")
+    radio2.grid(row=11, column=0, columnspan=4, sticky="w")
 
     # Create a frame for the "Start" button and "Generate Story" label
     start_frame = ttk.Frame(root, padding=(20, 10))
