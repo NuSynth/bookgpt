@@ -100,6 +100,7 @@ def main():
         "Gabriel García Márquez",
         "George Lucas",
         "George Orwell",
+        "H.G. Wells",
         "H. P. Lovecraft",
         "Harper Lee",
         "Insane Donald Trump",
