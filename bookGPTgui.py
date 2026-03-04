@@ -152,16 +152,17 @@ def main():
     design_label.grid(row=2, column=0, sticky="w")
     
     categories = [
-        "Fiction", 
-        "Comedy Science Fiction",
-        "Science Fiction",
-        "Sci-Fi horror",
-        "Horror",
-        "Holiday Romance",
-        "Fantasy",
-        "Comedy",
-        "Christian SciFi",
-        "Christian Fantasy"
+    "Christian Fantasy",
+    "Christian SciFi",
+    "Comedy",
+    "Comedy Science Fiction",
+    "Fantasy",
+    "Fiction",
+    "Holiday Romance",
+    "Horror",
+    "Sci-Fi horror",
+    "Science Fiction",
+    "Zombie Apocalypse"
     ]
 
 
