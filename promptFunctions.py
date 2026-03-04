@@ -106,7 +106,7 @@ def characters_in_book(book_plot, chapter_quantity):
 def book_template(structure_check, structure_choice, book_genre, characters, design_author, category_variable, book_plot, chapter_quantity):
     try:
         if not structure_check:
-            if book_genre in ["Horror", "Sci-Fi horror"]:
+            if book_genre in ["Horror", "Sci-Fi horror", "Zombie Apocalypse"]:
                 messages=[
                     {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
                     {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the structure that {design_author} uses. List {chapter_quantity} chapters within the structure, and each chapter needs to have a brief plot, along with which characters are in the chapters from the list of characters I provided. Some characters must be assigned to die in particular chapters. Do not make any optional deaths. It is a {category_variable} book. Write it in the style of {design_author}."}
@@ -117,7 +117,7 @@ def book_template(structure_check, structure_choice, book_genre, characters, des
                     {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the structure that {design_author} uses. List {chapter_quantity} chapters within the structure, and each chapter needs to have a brief plot, along with which characters are in the chapters from the list of characters I provided. Some characters must be assigned to die in particular chapters. Do not make any optional deaths. It is a {category_variable} book. Write it in the style of {design_author}."}
                 ]
         else:
-            if book_genre in ["Horror", "Sci-Fi horror"]:
+            if book_genre in ["Horror", "Sci-Fi horror", "Zombie Apocalypse"]:
                 messages=[
                     {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
                     {"role": "user", "content": f"Here is a plot of a book I'm making:\n\n{book_plot}\n\n\n\nIt has these characters:\n\n{characters}\n\n\n\nI need a template for this book in the {structure_choice} structure. List {chapter_quantity} chapters within the structure, and each chapter needs to have a brief plot, along with which characters are in the chapters from the list of characters I provided. Some characters must be assigned to die in particular chapters. Do not make any optional deaths. It is a {category_variable} book. Write it in the style of {design_author}."}
