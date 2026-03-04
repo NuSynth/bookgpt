@@ -232,7 +232,7 @@ def chapter_characters(book_template, chapter_number, characters):
 def make_chapter_templates(book_genre, category_variable, book_template, chapter_author, chapter_number, character_list):
     try:
         # Structure chapter
-        if book_genre in ["Horror", "Sci-Fi horror"]:
+        if book_genre in ["Horror", "Sci-Fi horror", "Zombie Apocalypse"]:
             messages=[
                 {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
                 {"role": "user", "content": f"{book_template}\n\n I need an outline of chapter {chapter_number}. It should be written in the style of {chapter_author}, and the category is {category_variable}. Here is the character information for the chapter:\n\n{character_list}\n\nDo not include the other chapters. Just output what I told you."}
@@ -266,7 +266,7 @@ def chatgpt_write_chapter(first_person_pov, book_genre, chapter_template, chapte
     
     try:
 
-        if book_genre in ["Horror", "Sci-Fi horror"]:
+        if book_genre in ["Horror", "Sci-Fi horror", "Zombie Apocalypse"]:
             messages=[
                 {"role": "system", "content": f"You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. {pov_message}"},
                 {"role": "user", "content": f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"}
