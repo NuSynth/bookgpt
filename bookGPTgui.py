@@ -108,12 +108,15 @@ def main():
         "Jessie Gussman",
         "Johanna Spyri",
         "John Carpenter",
+        "Jonathan Maberry",
         "Madison Love",
         "Margaret Mitchell",
         "Markus Zusak",
         "Mary Shelley",
         "Matthew J. Costello",
+        "Max Brooks",
         "Miguel de Cervantes",
+        "Mira Grant",
         "Oscar Wilde",
         "Paulo Coelho",
         "Phillip K. Dick",
@@ -122,7 +125,8 @@ def main():
         "Robert A. Heinlein",
         "Rod Serling",
         "William Gibson",
-        "William P. Young"
+        "William P. Young",
+        "Zack Snyder"
     ]
 
     # Dropdown for "Writing"
