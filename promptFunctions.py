@@ -141,7 +141,7 @@ def book_template(structure_check, structure_choice, book_genre, characters, des
 
 #Write the template to a file so a human can just write the book out.
 # Write chapters to files
-def write_to_template(book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template):
+def write_to_template(first_person_pov, book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template):
     directory = "book"
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -167,9 +167,9 @@ def write_to_template(book_genre, model_choice, design_author, characters, custo
         GEMINI = 2
         if template == FALSE:
             if model_choice == CHAT_GPT:
-                chapter_written = chatgpt_write_chapter(book_genre, chapter_template, chapter_author, chapter_number)
+                chapter_written = chatgpt_write_chapter(first_person_pov, book_genre, chapter_template, chapter_author, chapter_number)
             else:
-                chapter_written = gemini_write_chapter(chapter_template, chapter_author, chapter_number) # Gemini just won't do blood and gore type stuff.
+                chapter_written = gemini_write_chapter(first_person_pov, chapter_template, chapter_author, chapter_number) # Gemini just won't do blood and gore type stuff.
         else:
             chapter_written = "."
 
@@ -257,18 +257,24 @@ def make_chapter_templates(book_genre, category_variable, book_template, chapter
 
 
 # Make chapter summaries for the template
-def chatgpt_write_chapter(book_genre, chapter_template, chapter_author, chapter_number):
+def chatgpt_write_chapter(first_person_pov, book_genre, chapter_template, chapter_author, chapter_number):
+    # Structure chapter
+    if not first_person_pov:
+        pov_message = "You strictly write in third-person. Never use first-person narration."
+    else:
+        pov_message = "You must strictly write in the first-person. Never use third-person narration."
+    
     try:
-        # Structure chapter
+
         if book_genre in ["Horror", "Sci-Fi horror"]:
             messages=[
-                {"role": "system", "content": "You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. You strictly write in third-person. Never use first-person narration."},
+                {"role": "system", "content": f"You are a novelist. You write graphic, intense, disturbing fiction. You vividly describe violence, blood, gore, injury, and horrifying scenes using rich sensory detail. You do not sanitize or soften violent content. {pov_message}"},
                 {"role": "user", "content": f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"}
                 
             ]
         else:
             messages=[
-                {"role": "system", "content": "You are a novelist. You must strictly write in the third-person. Never use first-person narration."},
+                {"role": "system", "content": f"You are a novelist. {pov_message}"},
                 {"role": "user", "content": f"Write a chapter in the style of {chapter_author} based on this outline:\n\n{chapter_template}"}
             ]
         response = client_gpt.responses.create(
@@ -284,10 +290,16 @@ def chatgpt_write_chapter(book_genre, chapter_template, chapter_author, chapter_
         print(f"An error occurred: {e}")
         return None
     
-def gemini_write_chapter(chapter_template, chapter_author, chapter_number):
+def gemini_write_chapter(first_person_pov, chapter_template, chapter_author, chapter_number):
     # List of models to try in order of preference
     # 3.1 Pro is the goal, 3.1 Flash is the reliable backup
     models_to_try = ['gemini-3.1-pro-preview', 'gemini-3-flash-preview']
+    # Structure chapter
+    if not first_person_pov:
+        pov_message = "You strictly write in third-person. Never use first-person narration."
+    else:
+        pov_message = "You must strictly write in the first-person. Never use third-person narration."
+    
     
     for model_name in models_to_try:
         try:
@@ -298,8 +310,8 @@ def gemini_write_chapter(chapter_template, chapter_author, chapter_number):
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     system_instruction=(
-                        f"You are a novelist."
-                        "You must strictly write in the third-person. Never use first-person narration."
+                        f"You are a novelist. "
+                        f"{pov_message}"
                     ),
                     thinking_config=types.ThinkingConfig(
                         # Pro supports HIGH, Flash usually supports LOW or NONE
