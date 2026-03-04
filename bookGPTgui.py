@@ -15,6 +15,7 @@ def main():
         design_author = design_var.get()
         chapter_author = writing_var.get()
         category_variable = category_var.get()
+        structure_choice = structure_var.get()
 
         # new
         # For custom idea
@@ -38,6 +39,10 @@ def main():
         # This is needed for some genres to have blood and gore
         book_genre = category_var.get()
 
+        # This is if the user wants to structure the book differently than the selected design author would have. Reduces plagiarism risk.
+        structure_check = structure_checkbox_var.get()
+
+
         #### setup_skelletons START####
         # Generate the series name and the series plot
         if not checkbox_checked:  # Use `not` to check for False in Python
@@ -47,10 +52,7 @@ def main():
             book_name = pf.custom_name_book(custom_text_input, design_author, category_variable)
             book_plot = pf.custom_book_plot(custom_text_input, design_author, category_variable, book_name)
 
-
-        #For character generation
-        characters = pf.characters_in_book(book_plot, chapter_quantity)
-
+        # Custom or default number of chapters
         TRUE = 1
         FALSE = 0
         DEFAULT_TWELVE = 12
@@ -61,8 +63,13 @@ def main():
             template = FALSE
         else:
             template = TRUE
+        
+        #For character generation
+        characters = pf.characters_in_book(book_plot, chapter_quantity)
 
-        book_template = pf.book_template(book_genre, characters, design_author, category_variable, book_plot, chapter_quantity)
+
+        # Write the templates and book
+        book_template = pf.book_template(structure_check, structure_choice, book_genre, characters, design_author, category_variable, book_plot, chapter_quantity)
         pf.write_to_template(book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
 
 
@@ -153,26 +160,65 @@ def main():
     design_dropdown.grid(row=2, column=1, sticky="ew")
     design_dropdown.set("Select a Category")
 
+    writing_structures = [
+        "Chiastic",
+        "Circular Narrative",
+        "Dan Harmon Story Circle",
+        "Episodic",
+        "Epistolary",
+        "Fichtean Curve",
+        "Five-Act",
+        "Frame Narrative",
+        "Freytag's Pyramid",
+        "Hero's Journey",
+        "In Medias Res",
+        "Kishōtenketsu",
+        "Linear Narrative",
+        "Monomyth",
+        "Nonlinear Narrative",
+        "Parallel Narrative",
+        "Quest",
+        "Rags to Riches",
+        "Save the Cat Beat Sheet",
+        "Seven-Point Story",
+        "Snowflake Method",
+        "Story Within a Story",
+        "Three-Act",
+        "Tragedy",
+        "Try-Fail Cycle"
+    ]
+
+    # Checkbox for writing structure
+    structure_checkbox_var = tk.BooleanVar()
+    structure_checkbox = ttk.Checkbutton(styles_frame, text="Custom Structure", variable=structure_checkbox_var)
+    structure_checkbox.grid(row=3, column=0, columnspan=2, sticky="w")
+
+    # Dropdown options for custom structure
+    structure_var = tk.StringVar()
+    design_dropdown = ttk.Combobox(styles_frame, textvariable=structure_var, values=writing_structures)
+    design_dropdown.grid(row=3, column=1, sticky="ew")
+    design_dropdown.set("Select a Structure")
+
     # Checkbox for additional option
     checkbox_var = tk.BooleanVar()
     checkbox = ttk.Checkbutton(styles_frame, text="Custom Idea", variable=checkbox_var)
-    checkbox.grid(row=3, column=0, columnspan=2, sticky="w")
+    checkbox.grid(row=4, column=0, columnspan=2, sticky="w")
 
     # Entry for custom text input
     custom_text_label = ttk.Label(styles_frame, text="Story Idea:")
-    custom_text_label.grid(row=4, column=0, sticky="w")
+    custom_text_label.grid(row=5, column=0, sticky="w")
     custom_text_var = tk.StringVar()
     custom_text_entry = ttk.Entry(styles_frame, textvariable=custom_text_var)
-    custom_text_entry.grid(row=4, column=1, sticky="ew")
+    custom_text_entry.grid(row=5, column=1, sticky="ew")
 
     # Checkbox for custom number of chapters - This part needs more work in the backend code in order to function properly. Dont use it.
     check_chaps = tk.BooleanVar()
     checkbox_chapters = ttk.Checkbutton(styles_frame, text="Number of Chapters", variable=check_chaps)
-    checkbox_chapters.grid(row=5, column=0, columnspan=2, sticky="w")
+    checkbox_chapters.grid(row=6, column=0, columnspan=2, sticky="w")
 
     chapter_number = tk.IntVar(value=1)
     chapter_spin = tk.Spinbox(styles_frame, from_=1, to=100, textvariable=chapter_number, width=5)
-    chapter_spin.grid(row=6, column=1, sticky="w")
+    chapter_spin.grid(row=7, column=1, sticky="w")
 
     # Checkbox for crude humor and vulgor language
     # checkbox_humor = tk.BooleanVar()
@@ -182,7 +228,7 @@ def main():
     # Only output the template of the book so a human can write it.
     check_template_var = tk.BooleanVar()
     checkbox = ttk.Checkbutton(styles_frame, text="Only a template", variable=check_template_var)
-    checkbox.grid(row=7, column=0, columnspan=2, sticky="w")
+    checkbox.grid(row=8, column=0, columnspan=2, sticky="w")
 
     # Radio button for A.I. selection
     model_selected = tk.IntVar(value=1)
@@ -191,12 +237,12 @@ def main():
     radio2 = tk.Radiobutton(styles_frame, text="Gemini", variable=model_selected, value=2)
 
     spacer = tk.Frame(styles_frame, height=20) # This is to separate it from other options a little
-    spacer.grid(row=8, column=0)
+    spacer.grid(row=9, column=0)
 
     radio_label = ttk.Label(styles_frame, text="A.I. model to write story")
-    radio_label.grid(row=9, column=0, sticky="w")
-    radio1.grid(row=10, column=0, columnspan=4, sticky="w")
-    radio2.grid(row=11, column=0, columnspan=4, sticky="w")
+    radio_label.grid(row=10, column=0, sticky="w")
+    radio1.grid(row=11, column=0, columnspan=4, sticky="w")
+    radio2.grid(row=12, column=0, columnspan=4, sticky="w")
 
     # Create a frame for the "Start" button and "Generate Story" label
     start_frame = ttk.Frame(root, padding=(20, 10))
