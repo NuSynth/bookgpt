@@ -42,6 +42,9 @@ def main():
         # This is if the user wants to structure the book differently than the selected design author would have. Reduces plagiarism risk.
         structure_check = structure_checkbox_var.get()
 
+        # This is if the user wants the story to be told from a first-person point of view
+        first_person_pov = first_person.get()
+
 
         #### setup_skelletons START####
         # Generate the series name and the series plot
@@ -70,7 +73,7 @@ def main():
 
         # Write the templates and book
         book_template = pf.book_template(structure_check, structure_choice, book_genre, characters, design_author, category_variable, book_plot, chapter_quantity)
-        pf.write_to_template(book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
+        pf.write_to_template(first_person_pov, book_genre, model_choice, design_author, characters, custom_text_input, book_plot, book_name, category_variable, book_template, chapter_author, chapter_quantity, template)
 
 
 
@@ -83,7 +86,7 @@ def main():
     authors_list = [
         "Anna Sewell",
         "Antoine de Saint-Exupéry",
-        "Antoine de Saint-Exupéry",
+        "Arthur C. Clarke",
         "Bram Stoker",
         "Charles Dickens",
         "Clive Barker",
@@ -95,7 +98,9 @@ def main():
         "F. Scott Fitzgerald",
         "Frank Herbert",
         "Gabriel García Márquez",
+        "George Lucas",
         "George Orwell",
+        "H. P. Lovecraft",
         "Harper Lee",
         "Insane Donald Trump",
         "Isaac Asimov",
@@ -114,6 +119,7 @@ def main():
         "Phillip K. Dick",
         "Ridley Scott",
         "RL Stine",
+        "Robert A. Heinlein",
         "Rod Serling",
         "William Gibson",
         "William P. Young"
@@ -199,7 +205,7 @@ def main():
     design_dropdown.grid(row=3, column=1, sticky="ew")
     design_dropdown.set("Select a Structure")
 
-    # Checkbox for additional option
+    # Checkbox for custom idea
     checkbox_var = tk.BooleanVar()
     checkbox = ttk.Checkbutton(styles_frame, text="Custom Idea", variable=checkbox_var)
     checkbox.grid(row=4, column=0, columnspan=2, sticky="w")
@@ -211,14 +217,22 @@ def main():
     custom_text_entry = ttk.Entry(styles_frame, textvariable=custom_text_var)
     custom_text_entry.grid(row=5, column=1, sticky="ew")
 
-    # Checkbox for custom number of chapters - This part needs more work in the backend code in order to function properly. Dont use it.
+
+    # Checkbox for narration point of view
+    first_person = tk.BooleanVar()
+    checkbox = ttk.Checkbutton(styles_frame, text="First-person POV", variable=first_person)
+    checkbox.grid(row=6, column=0, columnspan=2, sticky="w")
+
+    # Checkbox for custom number of chapters
+    spacer = tk.Frame(styles_frame, height=20) # This is to separate it from other options a little
+    spacer.grid(row=7, column=0)
     check_chaps = tk.BooleanVar()
     checkbox_chapters = ttk.Checkbutton(styles_frame, text="Number of Chapters", variable=check_chaps)
-    checkbox_chapters.grid(row=6, column=0, columnspan=2, sticky="w")
+    checkbox_chapters.grid(row=7, column=0, columnspan=2, sticky="w")
 
     chapter_number = tk.IntVar(value=1)
     chapter_spin = tk.Spinbox(styles_frame, from_=1, to=100, textvariable=chapter_number, width=5)
-    chapter_spin.grid(row=7, column=1, sticky="w")
+    chapter_spin.grid(row=8, column=1, sticky="w")
 
     # Checkbox for crude humor and vulgor language
     # checkbox_humor = tk.BooleanVar()
@@ -228,7 +242,7 @@ def main():
     # Only output the template of the book so a human can write it.
     check_template_var = tk.BooleanVar()
     checkbox = ttk.Checkbutton(styles_frame, text="Only a template", variable=check_template_var)
-    checkbox.grid(row=8, column=0, columnspan=2, sticky="w")
+    checkbox.grid(row=9, column=0, columnspan=2, sticky="w")
 
     # Radio button for A.I. selection
     model_selected = tk.IntVar(value=1)
@@ -237,12 +251,12 @@ def main():
     radio2 = tk.Radiobutton(styles_frame, text="Gemini", variable=model_selected, value=2)
 
     spacer = tk.Frame(styles_frame, height=20) # This is to separate it from other options a little
-    spacer.grid(row=9, column=0)
+    spacer.grid(row=10, column=0)
 
     radio_label = ttk.Label(styles_frame, text="A.I. model to write story")
-    radio_label.grid(row=10, column=0, sticky="w")
-    radio1.grid(row=11, column=0, columnspan=4, sticky="w")
-    radio2.grid(row=12, column=0, columnspan=4, sticky="w")
+    radio_label.grid(row=11, column=0, sticky="w")
+    radio1.grid(row=12, column=0, columnspan=4, sticky="w")
+    radio2.grid(row=13, column=0, columnspan=4, sticky="w")
 
     # Create a frame for the "Start" button and "Generate Story" label
     start_frame = ttk.Frame(root, padding=(20, 10))
