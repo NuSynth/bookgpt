@@ -150,7 +150,7 @@ def write_to_template(first_person_pov, book_genre, model_choice, design_author,
     template_file = f"Book Category:\n\n{category_variable}\n\n\n{stars}\n\n\nBook Idea Author:\n\n{design_author}\n\n{stars}\n\n\nAuthor Writing Style:\n\n{chapter_author}\n\n{stars}\n\n\nNumber of chapters:\n\n{chapter_quantity}\n\n\n{stars}\n\n\nCustom Text Input:\n\n{custom_text_input}\n\n\n{stars}\n\n\nBook Name:\n\n{book_name}\n\n{stars}\n\n\nBook Plot:\n\n{book_plot}\n\n{stars}\n\n\nCharacters:\n\n{characters}\n\n{stars}\n\n\nBook Template:\n\n{book_template}"
     filename = f"book_template_file.txt"
     file_path = os.path.join(directory, filename)
-    with open(file_path, "w") as file:
+    with open(file_path, "w", encoding="utf-8") as file:
             file.write(template_file)
     
     loop_count = 0
@@ -180,7 +180,7 @@ def write_to_template(first_person_pov, book_genre, model_choice, design_author,
         template_file_path = os.path.join(directory, template_filename)
 
         # Write chapter_template to the file
-        with open(template_file_path, "w") as file:
+        with open(template_file_path, "w", encoding="utf-8") as file:
             file.write(chapter_template)
 
         #Written chapter section
@@ -189,7 +189,7 @@ def write_to_template(first_person_pov, book_genre, model_choice, design_author,
         chapter_file_path = os.path.join(directory, chapter_filename)
 
         # Write chapter_template to the file
-        with open(chapter_file_path, "w") as file:
+        with open(chapter_file_path, "w", encoding="utf-8") as file:
             file.write(chapter_written)
         
 
@@ -262,7 +262,7 @@ def chatgpt_write_chapter(first_person_pov, book_genre, chapter_template, chapte
     if not first_person_pov:
         pov_message = "You strictly write in third-person. Never use first-person narration."
     else:
-        pov_message = "You must strictly write in the first-person. Never use third-person narration."
+        pov_message = "You must strictly write in the first-person. NEVER USE THIRD PERSON NARRATION!"
     
     try:
 
