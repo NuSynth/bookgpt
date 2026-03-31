@@ -3,6 +3,7 @@ This program writes entire novels.
 
 # To Install
 Step 1: [Windows 11 Setup Instructions](./Windows%20Instructions.txt)
+
 Step 2: [Instructions for setting up your AI keys](AI%20keys%20instructions.txt)
 
 
