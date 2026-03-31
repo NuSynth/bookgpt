@@ -7,7 +7,7 @@ You need to have keys for openAI and Google Gemini in order to use this program.
 These instructions will soon be updated for getting an API key for Grok. Right now the program is not set up to use Grok, but it will be.
 
 
-Google Gemini API key:
+# Google Gemini API key:
 
 1. Go to Google AI Studio
 Google provides API keys for Gemini through Google AI Studio.
@@ -69,7 +69,7 @@ On the left side of of the web page for Google AI Studio, there is a billing sec
 
 
 
-OpenAI API Key:
+# OpenAI API Key:
 
 1. Go to the OpenAI Platform Dashboard
 👉 https://platform.openai.com
