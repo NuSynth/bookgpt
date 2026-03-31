@@ -1,0 +1,137 @@
+For Windows 11
+
+Step 1: Get Python
+
+1) Go to the official Python website’s Windows download page at
+
+https://www.python.org/downloads/windows/
+
+2) Choose the "Latest Python install manager"
+
+3) Scroll down and select "Installer (MSIX)
+
+4) Open the installer.
+
+5) Click "install Python
+
+6) Press the "y" key and then press the "enter" key on all options that prompt you to do so, except for "View online help" unless you want to view the online help for some reason.
+
+7) In the search section of your task bar, type "ter" and then select "Terminal".
+
+8) Optional: If you have your Terminal open, then right click on the Terminal icon on your task bar, and select "Pin to task bar"
+
+
+
+
+Step 2: Setting up the virtual environment:
+
+1) Create a new directory anywhere you wish. Name it "books"
+
+2) Open the directory.
+
+3) Right-click in the directory and select "Open in Terminal".
+
+4) Enter this into the terminal:
+
+python -m venv venv
+
+the command may take a moment to process.
+
+5) Now enter this into the terminal:
+
+venv\Scripts\activate
+
+
+After activation: The prompt should look something like:
+
+(venv) C:\Users\you\Documents\python-project>
+
+
+The path will be wherever your project folder is located that you just made.
+
+Keep the terminal open.
+
+
+
+Step 3: Setting up Pip
+
+1) Upgrade Pip:
+Deactivate your current virtual environment terminal by typing:
+
+deactivate
+
+and press enter
+
+Close the window.
+
+Right-click within your project directory and select
+
+"Open in terminal"
+
+Now type: python.exe -m pip install --upgrade pip
+
+After it processes, get back into your virtual environment by entering:
+
+
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+then enter:
+
+venv\Scripts\activate
+
+Now you are in a virtual environment.
+
+
+
+
+
+Step 4: Setup ChatGPT and Google Gemini.
+These steps are performed inside your virtual environment.
+
+1) Enter this into your terminal:
+
+pip install requests
+
+ignore the notification for the new release of pip/
+
+
+2) Now enter this into your terminal (this is for chatGPT):
+
+pip install openai
+
+
+3) Now enter this into your prompt (This is gor google gemini):
+
+pip install google-genai
+
+
+Now your environment is ready to run the program.
+
+
+Step 5: Check that BookGPT runs.
+
+
+1) Type this into your virtual environment but do not press "Enter" yet:
+
+python
+
+Make sure there is a space after the word "python.
+
+2) Drag and drop the file "bookGPTgui" into the terminal, as though you were dragging and dropping the file into a different directory.
+
+You should now see the word python and a space, then the path to the file you just dragged and dropped into the terminal.
+
+3) Press the "Enter" key.
+
+The program should start running after a few moments. You can not yet use the program until you have a key from openAI at the very least. I recommend getting a key for google Gemini as well. I have a separate set of instructions for getting those keys, and putting them where they need to be at in the program.
+
+
+
+
+
+
+
+
+
+
+
