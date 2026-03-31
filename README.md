@@ -1,6 +1,11 @@
 # bookgpt
 This program writes entire novels.
 
+# To Install
+Step 1: [Windows 11 Setup Instructions](./Windows%20Instructions.txt)
+Step 2: [Instructions for setting up your AI keys](AI%20keys%20instructions.txt)
+
+
 # Quality of the novels can vary.
 It writes good young adult fiction. I havent tested it with more complicated fiction for something comparable to DUNE. All chapters need to be reviewed and edited for consistency.
 
