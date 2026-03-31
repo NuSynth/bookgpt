@@ -45,9 +45,11 @@ Near the top of the file are these two sections:
 
 # Replace 'YOUR_API_KEY' with your actual key
 #For google Gemini
+
 client_gemini = genai.Client(api_key="YOUR_API_KEY_HERE")
 
 #For ChatGPT
+
 client_gpt = OpenAI(
   api_key = "YOUR_API_KEY_HERE",
 )
@@ -95,6 +97,7 @@ Go back to the "promptFunctions file that should still be open in your Notepad p
 For this section:
 
 #For ChatGPT
+
 client_gpt = OpenAI(
   api_key = "YOUR_API_KEY_HERE",
 )
