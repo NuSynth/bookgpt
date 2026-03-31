@@ -1,6 +1,6 @@
 For Windows 11
 
-Step 1: Get Python
+# Step 1: Get Python
 
 1) Go to the official Python website’s Windows download page at
 
@@ -23,7 +23,7 @@ https://www.python.org/downloads/windows/
 
 
 
-Step 2: Setting up the virtual environment:
+# Step 2: Setting up the virtual environment:
 
 1) Create a new directory anywhere you wish. Name it "books"
 
@@ -53,7 +53,7 @@ Keep the terminal open.
 
 
 
-Step 3: Setting up Pip
+# Step 3: Setting up Pip
 
 1) Upgrade Pip:
 Deactivate your current virtual environment terminal by typing:
@@ -85,7 +85,7 @@ Now you are in a virtual environment.
 
 
 
-Step 4: Setup ChatGPT and Google Gemini.
+# Step 4: Setup ChatGPT and Google Gemini.
 These steps are performed inside your virtual environment.
 
 1) Enter this into your terminal:
@@ -108,7 +108,7 @@ pip install google-genai
 Now your environment is ready to run the program.
 
 
-Step 5: Check that BookGPT runs.
+# Step 5: Check that BookGPT runs.
 
 
 1) Type this into your virtual environment but do not press "Enter" yet:
